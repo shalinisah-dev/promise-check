@@ -1,0 +1,44 @@
+{
+  "case": "signal-sealed-sender",
+  "type": "public",
+  "rung_tolerance": 1,
+  "source": "https://signal.org/blog/sealed-sender/ (Oct 29, 2018)",
+  "notes": "Verified against the source on 2026-11-19. The post calls sealed sender an incremental step toward hiding who is messaging whom, and names network metadata and timing correlation as ongoing work.",
+  "promises": [
+    {
+      "id": "server-cannot-see-sender",
+      "keywords": [
+        "sen(t|der)",
+        "service|server|learn|see"
+      ],
+      "kind": "privacy",
+      "verdict": "enforced",
+      "rung": 6,
+      "why": "The sender certificate travels inside an envelope encrypted to the recipient; the service receives the message unauthenticated."
+    },
+    {
+      "id": "social-graph",
+      "keywords": [
+        "social graph|messaging whom|who is messaging|metadata"
+      ],
+      "kind": "privacy",
+      "verdict": "partial",
+      "rung": 6,
+      "why": "The envelope hides the sender cryptographically, but the service still sees the recipient and network metadata (IP, timing); the post calls it incremental."
+    },
+    {
+      "id": "abuse-control",
+      "keywords": [
+        "abuse|spam|token|rate"
+      ],
+      "kind": "integrity",
+      "verdict": [
+        "enforced",
+        "partial"
+      ],
+      "rung": 6,
+      "why": "Delivery tokens derived from the recipient's profile key replace sender authentication; the optional 'receive from anyone' setting trades this away, which the post flags as an abuse risk."
+    }
+  ],
+  "keywords_note": "Each keyword is a case-insensitive regex; a ledger promise matches when every keyword matches its 'promise' text. A list of verdicts means any of them is accepted."
+}

@@ -1,0 +1,13 @@
+{
+  "promises": [
+    {"id": "refund-cap", "match": "never issues a refund over $100", "rung": 5,
+     "enforced_by": {"path": "payments/refund_gate.py", "contains": "verify_signed_approval"}},
+    {"id": "handoff", "match": "always hands off to a human", "rung": 2,
+     "note": "System prompt + weekly QA sample. Next rung: classifier gate that forces escalate()."},
+    {"id": "handoff-prompt", "match": "always call escalate()", "rung": 1},
+    {"id": "no-cross-customer-data", "match": "must not reveal another customer", "rung": 1,
+     "note": "Prompt says it; the real guard is lookup_orders binding to the session. Point enforced_by there."},
+    {"id": "provider-retention", "match": "not retained by our model provider", "rung": 1,
+     "note": "Contract (zero-data-retention agreement)."}
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "case": "notes-app-privacy",
+  "type": "synthetic",
+  "rung_tolerance": 0,
+  "notes": "Fictional document written for this eval; the ground truth is exact.",
+  "promises": [
+    {
+      "id": "never-read",
+      "keywords": [
+        "\\bread"
+      ],
+      "kind": "privacy",
+      "verdict": "contradicted",
+      "rung": null,
+      "why": "The support console's 'View note' button means staff can read notes; manager approval is process, not prevention."
+    },
+    {
+      "id": "only-you-access",
+      "keywords": [
+        "only you|access"
+      ],
+      "kind": "access",
+      "verdict": "contradicted",
+      "rung": null,
+      "why": "KMS keys are held by Acme, and the admin console can open notes."
+    },
+    {
+      "id": "deleted-30-days",
+      "keywords": [
+        "delet"
+      ],
+      "kind": "deletion/retention",
+      "verdict": "contradicted",
+      "rung": null,
+      "why": "Daily backups are kept for 90 days, so deleted notes survive past 30 days."
+    },
+    {
+      "id": "encrypted-in-transit",
+      "keywords": [
+        "transit"
+      ],
+      "kind": "privacy",
+      "verdict": "enforced",
+      "rung": 6,
+      "why": "TLS 1.3 with certificate pinning."
+    },
+    {
+      "id": "no-ai-training",
+      "keywords": [
+        "train"
+      ],
+      "kind": "privacy",
+      "verdict": "partial",
+      "rung": 2,
+      "why": "A written policy plus a yearly employee acknowledgement is process (rung 2); nothing technical blocks training, and titles also flow to the warehouse."
+    }
+  ],
+  "keywords_note": "Each keyword is a case-insensitive regex; a ledger promise matches when every keyword matches its 'promise' text."
+}

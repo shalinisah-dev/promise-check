@@ -1,0 +1,14 @@
+name: test
+on: [push, pull_request]
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest discover -s lint/tests -v
+      - name: Dogfood the action on the example repo
+        uses: ./
+        with:
+          path: lint/examples/helpbot
+          ledger: lint/examples/helpbot/promises.json
+          strict: "true"

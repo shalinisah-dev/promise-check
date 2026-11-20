@@ -1,0 +1,23 @@
+name: promise-lint
+description: Fail CI when a promise in your docs or prompts loses the code that enforces it.
+branding:
+  icon: shield
+  color: purple
+inputs:
+  path:
+    description: Repo root to scan
+    default: "."
+  ledger:
+    description: Path to the promise ledger
+    default: "promises.json"
+  strict:
+    description: Also fail on promise sentences with no ledger entry
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        args=("${{ inputs.path }}" --ledger "${{ inputs.ledger }}")
+        if [ "${{ inputs.strict }}" = "true" ]; then args+=(--strict); fi
+        python3 "${{ github.action_path }}/lint/promise_lint.py" "${args[@]}"

@@ -1,0 +1,66 @@
+{
+  "case": "apple-private-cloud-compute",
+  "type": "public",
+  "rung_tolerance": 1,
+  "source": "https://security.apple.com/blog/private-cloud-compute/ (June 10, 2024)",
+  "notes": "Verified against the source on 2026-11-19. The post is a pre-launch design overview written in the future tense; it reports no independent verification. Where the source documents a gap, partial is accepted alongside enforced.",
+  "promises": [
+    {
+      "id": "stateless",
+      "keywords": [
+        "retain|retention|stateless|kept|persist|delet"
+      ],
+      "kind": "deletion/retention",
+      "verdict": "enforced",
+      "rung": 6,
+      "why": "Request data is used only for the request. The Secure Enclave rotates the data volume's keys at every reboot and never persists them (cryptographic erasure); the inference process deletes request data on completion."
+    },
+    {
+      "id": "no-privileged-access",
+      "keywords": [
+        "privileged|runtime|shell|debug|administrator|staff|SRE"
+      ],
+      "kind": "access",
+      "verdict": "enforced",
+      "rung": 5,
+      "why": "No remote shell, no interactive debugging, Developer Mode can't be enabled, Code Signing blocks extra code, and only pre-specified, audited logs can leave a node."
+    },
+    {
+      "id": "non-targetability",
+      "keywords": [
+        "target"
+      ],
+      "kind": "privacy",
+      "verdict": [
+        "enforced",
+        "partial"
+      ],
+      "rung": 5,
+      "why": "OHTTP relay hides the source IP, blind-signature credentials, no user identifiers in metadata, statistically auditable node selection. The source frames this as making targeted attacks expensive and detectable, not impossible, so partial is defensible."
+    },
+    {
+      "id": "verifiable-transparency",
+      "keywords": [
+        "verif|transparen|inspect|research|publish"
+      ],
+      "kind": "integrity",
+      "verdict": [
+        "enforced",
+        "partial"
+      ],
+      "rung": 6,
+      "why": "Devices only send to nodes whose attested measurements match an append-only transparency log. Gap: images publish up to 90 days later and only a security-critical subset of source is released."
+    },
+    {
+      "id": "no-external-trust",
+      "keywords": [
+        "load balancer|TLS|end.to.end|encrypt|gateway"
+      ],
+      "kind": "privacy",
+      "verdict": "enforced",
+      "rung": 6,
+      "why": "Requests are encrypted to attested node keys; load balancers and gateways hold no decryption keys, so guarantees don't depend on TLS-terminating components."
+    }
+  ],
+  "keywords_note": "Each keyword is a case-insensitive regex; a ledger promise matches when every keyword matches its 'promise' text. A list of verdicts means any of them is accepted."
+}

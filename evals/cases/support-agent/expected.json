@@ -1,0 +1,59 @@
+{
+  "case": "support-agent",
+  "type": "synthetic",
+  "rung_tolerance": 0,
+  "notes": "Fictional document written for this eval; the ground truth is exact.",
+  "promises": [
+    {
+      "id": "refund-cap",
+      "keywords": [
+        "refund"
+      ],
+      "kind": "agent-behavior",
+      "verdict": "enforced",
+      "rung": 5,
+      "why": "The payments service rejects amounts over $100 without a signed token the model can't mint."
+    },
+    {
+      "id": "no-other-customer-data",
+      "keywords": [
+        "another customer|other customer|personal data"
+      ],
+      "kind": "privacy",
+      "verdict": "enforced",
+      "rung": 5,
+      "why": "The customer ID comes from the authenticated session, not from model input."
+    },
+    {
+      "id": "human-handoff",
+      "keywords": [
+        "hand ?off|hands off|escalat|human when|asks? for a human"
+      ],
+      "kind": "agent-behavior",
+      "verdict": "partial",
+      "rung": 2,
+      "why": "A system-prompt instruction (policy) plus a weekly sample review (process); nothing forces the escalate call."
+    },
+    {
+      "id": "grounded-answers",
+      "keywords": [
+        "ground|help.?center"
+      ],
+      "kind": "integrity",
+      "verdict": "partial",
+      "rung": 3,
+      "why": "A CI eval gate at 92% is a test; it doesn't check production answers, and 8% may fail."
+    },
+    {
+      "id": "provider-retention",
+      "keywords": [
+        "retain|retention|provider"
+      ],
+      "kind": "deletion/retention",
+      "verdict": "policy-only",
+      "rung": 1,
+      "why": "A contract with the vendor is policy for this system."
+    }
+  ],
+  "keywords_note": "Each keyword is a case-insensitive regex; a ledger promise matches when every keyword matches its 'promise' text."
+}
